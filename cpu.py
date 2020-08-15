@@ -127,6 +127,7 @@ class CPU:
             raise Exception("Unsupported ALU operation")
 
 #######################################################################
+
     def trace(self):
 
         print(f"TRACE: %02X | %02X %02X %02X |" % (
