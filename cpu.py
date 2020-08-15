@@ -37,7 +37,10 @@ class CPU:
         self.pc = 0             # program counter
         self.reg[7] = 0xF4      # stack pointer for push & pop operations
         self.running = True
-        self.fl =  0         
+                                #  Flag bit values:
+        self.e_flag = 0         #  00000100
+        self.l_flag = 0         #  00000010
+        self.g_flag = 0         #  00000001   
 
         self.branchtable = {}
         self.branchtable[HLT]   = self.hlt
@@ -97,27 +100,27 @@ class CPU:
                 registerB = self.reg[operand_b]
 
 ###############################################################
-#####   NEED TO CHANGE      #######
+#####   NEEDS WORK      #######
                 if registerA == registerB:
                     """
                     Set Equal flag (E) to 1, otherwise set it to 0
                     """
-                    print("Equal")   
+                    self.e_flag += 1
+                    print("E flag")   
 
                 elif registerA < registerB:
                     """
                     Set the Less-than flag (L) to 1, otherwise set it to 0
                     """
-                    print("Lower")
+                    self.l_flag += 1
+                    print("L flag")
 
                 elif registerA > registerB:
                     """
                     Set the Greater-than flag (G) to 1, otherwise set it to 0
                     """
-                    print("Higher")
-
-                else:
-                    raise Exception("Unsupported ALU operation")
+                    self.g_flag += 1
+                    print("G flag")
 
         #elif op == "SUB": etc
         else:
@@ -199,21 +202,21 @@ class CPU:
 
 ####################################################################
 
-    def jeq(self):
+    def jeq(self,operand_a, operand_b):
         """
         If equal flag is set True, 
         jump to the address stored in the given register 
         """
         pass
 
-    def jmp(self):
+    def jmp(self,operand_a, operand_b):
         """
         Jump to the address stored in the given register
         Set PC to the address stored in the given register
         """
         pass
 
-    def jne(self):
+    def jne(self,operand_a, operand_b):
         """
         If equal flag is clear(False),
         jump to the address stored in the given register
