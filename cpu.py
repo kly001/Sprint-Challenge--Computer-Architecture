@@ -18,6 +18,9 @@ CALL    =   0b01010000
 RET     =   0b00010001
 ADD     =   0b10100000
 CMP     =   0b10100111
+JEQ     =   0b01010101
+JMP     =   0b01010100
+JNE     =   0b01010110
 
 #  Our dev algotrithm for adding commands
 ##  add code to top
@@ -34,7 +37,7 @@ class CPU:
         self.pc = 0             # program counter
         self.reg[7] = 0xF4      # stack pointer for push & pop operations
         self.running = True
-        self.flag = 0
+        self.fl = 0             # flag
 
         self.branchtable = {}
         self.branchtable[HLT] = self.hlt
@@ -44,6 +47,9 @@ class CPU:
         self.branchtable[POP] = self.pop
         self.branchtable[CALL] = self.call
         self.branchtable[RET] = self.ret
+        self.branchtable[JEQ] = self.jeq
+        self.branchtable[JMP] = self.jmp
+        self.branchtable[JNE] = self.jne
 
 
     def load(self, filename):
@@ -90,6 +96,8 @@ class CPU:
                 value1 = self.reg[operand_a]
                 value2 = self.reg[operand_b]
 
+###############################################################
+#####   NEED TO CHANGE      #######
                 if value1 == value2:
                     print("Equal")
                 elif value1 < value2:
@@ -99,11 +107,11 @@ class CPU:
                 else:
                     raise Exception("Unsupported ALU operation")
 
-
         #elif op == "SUB": etc
         else:
             raise Exception("Unsupported ALU operation")
 
+#######################################################################
     def trace(self):
 
         print(f"TRACE: %02X | %02X %02X %02X |" % (
@@ -176,6 +184,15 @@ class CPU:
         value = self.ram[sp]
         self.pc = value
         self.reg[7] += 1
+
+    def jeq(self):
+        pass
+
+    def jmp(self):
+        pass
+
+    def jne(self):
+        pass
 
 
 
