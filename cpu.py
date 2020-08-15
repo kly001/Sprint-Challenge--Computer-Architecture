@@ -22,7 +22,7 @@ JEQ     =   0b01010101
 JMP     =   0b01010100
 JNE     =   0b01010110
 
-#  Our dev algotrithm for adding commands
+##  Algotrithm for adding commands:
 ##  add code to top
 ##  add code and function to branchtable
 ##  add function
@@ -37,19 +37,19 @@ class CPU:
         self.pc = 0             # program counter
         self.reg[7] = 0xF4      # stack pointer for push & pop operations
         self.running = True
-        self.fl = 0             # flag
+        self.fl =  0         
 
         self.branchtable = {}
-        self.branchtable[HLT] = self.hlt
-        self.branchtable[LDI] = self.ldi
-        self.branchtable[PRN] = self.prn
-        self.branchtable[PUSH] = self.push
-        self.branchtable[POP] = self.pop
-        self.branchtable[CALL] = self.call
-        self.branchtable[RET] = self.ret
-        self.branchtable[JEQ] = self.jeq
-        self.branchtable[JMP] = self.jmp
-        self.branchtable[JNE] = self.jne
+        self.branchtable[HLT]   = self.hlt
+        self.branchtable[LDI]   = self.ldi
+        self.branchtable[PRN]   = self.prn
+        self.branchtable[PUSH]  = self.push
+        self.branchtable[POP]   = self.pop
+        self.branchtable[CALL]  = self.call
+        self.branchtable[RET]   = self.ret
+        self.branchtable[JEQ]   = self.jeq
+        self.branchtable[JMP]   = self.jmp
+        self.branchtable[JNE]   = self.jne
 
 
     def load(self, filename):
@@ -93,17 +93,29 @@ class CPU:
                 self.reg[operand_a] *= self.reg[operand_b]
 
         elif op == CMP:
-                value1 = self.reg[operand_a]
-                value2 = self.reg[operand_b]
+                registerA = self.reg[operand_a]
+                registerB = self.reg[operand_b]
 
 ###############################################################
 #####   NEED TO CHANGE      #######
-                if value1 == value2:
-                    print("Equal")
-                elif value1 < value2:
+                if registerA == registerB:
+                    """
+                    Set Equal flag (E) to 1, otherwise set it to 0
+                    """
+                    print("Equal")   
+
+                elif registerA < registerB:
+                    """
+                    Set the Less-than flag (L) to 1, otherwise set it to 0
+                    """
                     print("Lower")
-                elif value1 > value2:
+
+                elif registerA > registerB:
+                    """
+                    Set the Greater-than flag (G) to 1, otherwise set it to 0
+                    """
                     print("Higher")
+
                 else:
                     raise Exception("Unsupported ALU operation")
 
@@ -142,7 +154,7 @@ class CPU:
                 self.pc += 1 + (IR>>6)
 
 
-            is_alu_command = IR & 0b00100000            #  classmate's way: check the 3rd bit
+            is_alu_command = IR & 0b00100000            #  classmate's way: checks the 3rd bit
             # is_alu_command = ((IR>>5) & 0b001) == 1   #  Tim's way: delete last 5 & check the 3rd bit
 
             if is_alu_command:
@@ -185,13 +197,27 @@ class CPU:
         self.pc = value
         self.reg[7] += 1
 
+####################################################################
+
     def jeq(self):
+        """
+        If equal flag is set True, 
+        jump to the address stored in the given register 
+        """
         pass
 
     def jmp(self):
+        """
+        Jump to the address stored in the given register
+        Set PC to the address stored in the given register
+        """
         pass
 
     def jne(self):
+        """
+        If equal flag is clear(False),
+        jump to the address stored in the given register
+        """
         pass
 
 
